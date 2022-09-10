@@ -1,5 +1,6 @@
 package com.sbpark.project.springboot.web;
 
+import com.sbpark.project.springboot.config.auth.LoginUser;
 import com.sbpark.project.springboot.config.auth.dto.SessionUser;
 import com.sbpark.project.springboot.service.posts.PostsService;
 import com.sbpark.project.springboot.web.dto.PostsResponseDto;
@@ -16,13 +17,13 @@ import javax.servlet.http.HttpSession;
 public class IndexController {
 
     private final PostsService postsService;
-    private final HttpSession httpSession;
+//    private final HttpSession httpSession; // --> @LoginUser로 대체
 
     @GetMapping("/")
-    public String index(Model model) {
+    public String index(Model model, @LoginUser SessionUser user) {
         model.addAttribute("posts", postsService.findAllDesc());
         //CustomOAuth2UserService에서 로그인 성공 시 세션에 SessionUser 저장
-        SessionUser user = (SessionUser) httpSession.getAttribute("user");
+//        SessionUser user = (SessionUser) httpSession.getAttribute("user");
         if(user != null) { //세션에 저장된 값이 있는 경우
             model.addAttribute("userName", user.getName());
         }
